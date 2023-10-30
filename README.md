@@ -4,6 +4,9 @@ small cli-utility / library to generate several color variants based on any give
 ## example
 ![](./example.png)
 
+# prerequisites
+you will need atleast java 17 installed for this to work, nothing else is required.
+
 # usage
 simply run the jar from the releases tab. when providing no arguments, the tool will pick a random color, although there are 3 modes to pick from:
 - rgb (r, g and b ranging from 0 to 255): `java -jar cpg.jar 'rgb(255, 255, 255)'`
