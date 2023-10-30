@@ -1,17 +1,61 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="ArtifactsWorkspaceSettings">
+    <artifacts-to-build>
+      <artifact name="colorpalette-gen:jar" />
+    </artifacts-to-build>
+  </component>
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2e2ad46e-c6ba-44bb-86bd-ecb515d2923e" name="Changes" comment="" />
+    <list default="true" id="2e2ad46e-c6ba-44bb-86bd-ecb515d2923e" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/artifacts/colorpalette_gen_jar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/crayne/cpg/Main.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/crayne/cpg/text/color/Color.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/crayne/cpg/text/color/ansi/AnsiColor.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/crayne/cpg/text/color/ansi/AnsiColorBuilder.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/crayne/cpg/text/color/space/HSV.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/crayne/cpg/text/color/space/RGB.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/crayne/cpg/text/component/Component.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/crayne/cpg/text/component/ComponentBuilder.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/crayne/cpg/text/component/ComponentPart.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/crayne/cpg/text/component/TextUtil.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/crayne/cpg/text/util/BoundedVec3.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/crayne/cpg/text/util/RandomString.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/META-INF/MANIFEST.MF" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="CodeInsightWorkspaceSettings">
+    <option name="optimizeImportsOnTheFly" value="true" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MacroExpansionManager">
+    <option name="directoryName" value="24rqgxws" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
   </component>
   <component name="ProjectId" id="2XUh6oJc50Ziwa5tCH3Tu8coHp7" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -22,9 +66,44 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true"
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "last_opened_file_path": "/home/crayne/colorpalette-gen/src/main/java/org/crayne/sketch/textcomponent",
+    "project.structure.last.edited": "Artifacts",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
+    "settings.editor.selected.configurable": "editor.preferences.fonts.default"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/java/org/crayne/sketch/textcomponent" />
+      <recent name="$PROJECT_DIR$/src/main/java/org/crayne/sketch" />
+    </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="org.crayne.cpg" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="org.crayne.cpg.Main" />
+      <module name="colorpalette-gen" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.crayne.cpg.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.Main" />
+      </list>
+    </recent_temporary>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -35,5 +114,20 @@
       <updated>1698689393986</updated>
     </task>
     <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>

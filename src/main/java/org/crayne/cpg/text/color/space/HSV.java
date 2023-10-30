@@ -1,14 +1,18 @@
-package org.crayne.cpg.text.color;
+package org.crayne.cpg.text.color.space;
 
+import org.crayne.cpg.text.color.Color;
 import org.crayne.cpg.text.util.BoundedVec3;
 import org.jetbrains.annotations.NotNull;
-
-import java.awt.*;
 
 public class HSV extends BoundedVec3<Float> {
 
     public HSV(final float h, final float s, final float v) {
         super(h, s, v);
+    }
+
+    @NotNull
+    public Color color() {
+        return Color.hsv(this);
     }
 
     @NotNull
@@ -33,8 +37,10 @@ public class HSV extends BoundedVec3<Float> {
 
     @NotNull
     public static HSV clamp(final float h, final float s, final float v) {
+        float hueWrapped = h % 360.0f;
+        if (hueWrapped < 0) hueWrapped = 360 + hueWrapped;
         return new HSV(
-                clampFloatComponent(h, 0.0f, 360.0f),
+                clampFloatComponent(hueWrapped, 0.0f, 360.0f),
                 clampFloatComponent(s, 0.0f, 1.0f),
                 clampFloatComponent(v, 0.0f, 1.0f)
         );
@@ -59,14 +65,19 @@ public class HSV extends BoundedVec3<Float> {
     }
 
     @NotNull
+    public HSV add(@NotNull final Float x, @NotNull final Float y, @NotNull final Float z) {
+        return HSV.clamp(x() + x, y() + y, z() + z);
+    }
+
+    @NotNull
     public RGB toRGB() {
-        final int rgb = Color.HSBtoRGB(h() / 360.0f, s(), v());
+        final int rgb = java.awt.Color.HSBtoRGB(h() / 360.0f, s(), v());
         return new RGB(rgb >> 16 & 255, rgb >> 8 & 255, rgb & 255);
     }
 
     @NotNull
     public String toString() {
-        return "rgb(" + h() +
+        return "hsv(" + h() +
                 "°, " + s() * 100.0f +
                 "%, " + v() * 100.0f +
                 "%)";

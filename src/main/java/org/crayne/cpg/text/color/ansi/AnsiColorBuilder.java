@@ -1,99 +1,99 @@
-package org.crayne.sketch.text;
+package org.crayne.cpg.text.color.ansi;
 
-import java.awt.Color;
+import org.crayne.cpg.text.color.Color;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.Optional;
 
 public class AnsiColorBuilder {
 
+    @Nullable
     private Color fg;
+
+    @Nullable
     private Color bg;
-    private final boolean[] flags;
-    private float animationSpeed = 0.2f;
+
+    private final boolean @NotNull [] flags;
 
     public AnsiColorBuilder() {
-        this.flags = new boolean[12];
+        this.flags = new boolean[9];
     }
 
-    public AnsiColorBuilder fg(final Color fg) {
+    @NotNull
+    public AnsiColorBuilder foreground(@Nullable final Color fg) {
         this.fg = fg;
         return this;
     }
 
-    public AnsiColorBuilder bg(final Color bg) {
+    @NotNull
+    public AnsiColorBuilder background(@Nullable final Color bg) {
         this.bg = bg;
         return this;
     }
 
+    @NotNull
     public AnsiColorBuilder reset(final boolean b) {
         flags[0] = b;
         return this;
     }
 
+    @NotNull
     public AnsiColorBuilder bold(final boolean b) {
         flags[1] = b;
         return this;
     }
 
+    @NotNull
     public AnsiColorBuilder dim(final boolean b) {
         flags[2] = b;
         return this;
     }
 
+    @NotNull
     public AnsiColorBuilder italic(final boolean b) {
         flags[3] = b;
         return this;
     }
 
+    @NotNull
     public AnsiColorBuilder underline(final boolean b) {
         flags[4] = b;
         return this;
     }
 
+    @NotNull
     public AnsiColorBuilder blinking(final boolean b) {
         flags[5] = b;
         return this;
     }
 
+    @NotNull
     public AnsiColorBuilder inverted(final boolean b) {
         flags[6] = b;
         return this;
     }
 
+    @NotNull
     public AnsiColorBuilder hidden(final boolean b) {
         flags[7] = b;
         return this;
     }
 
+    @NotNull
     public AnsiColorBuilder strikethrough(final boolean b) {
         flags[8] = b;
         return this;
     }
 
-    public AnsiColorBuilder obfuscated(final boolean b) {
-        flags[9] = b;
-        return this;
+    @NotNull
+    public Optional<Color> foreground() {
+        return Optional.ofNullable(fg);
     }
 
-    public AnsiColorBuilder rainbow(final boolean b) {
-        flags[10] = b;
-        return this;
-    }
-
-    public AnsiColorBuilder pastel_rainbow(final boolean b) {
-        flags[11] = b;
-        return this;
-    }
-
-    public AnsiColorBuilder animation_speed(final float s) {
-        animationSpeed = s;
-        return this;
-    }
-
-    public Color fg() {
-        return fg;
-    }
-
-    public Color bg() {
-        return bg;
+    @NotNull
+    public Optional<Color> background() {
+        return Optional.ofNullable(bg);
     }
 
     public boolean reset() {
@@ -132,24 +132,9 @@ public class AnsiColorBuilder {
         return flags[8];
     }
 
-    public boolean obfuscated() {
-        return flags[9];
-    }
-
-    public boolean rainbow() {
-        return flags[10];
-    }
-
-    public boolean pastel_rainbow() {
-        return flags[11];
-    }
-
-    public float animation_speed() {
-        return animationSpeed;
-    }
-
+    @NotNull
     public AnsiColor build() {
-        return new AnsiColor(fg, bg, flags, animationSpeed);
+        return new AnsiColor(fg, bg, flags);
     }
 
 }

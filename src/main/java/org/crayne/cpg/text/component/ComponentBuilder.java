@@ -1,102 +1,127 @@
-package org.crayne.sketch.text.component;
+package org.crayne.cpg.text.component;
 
-import org.crayne.sketch.text.AnsiColor;
-import org.crayne.sketch.text.AnsiColorBuilder;
+import org.crayne.cpg.text.color.Color;
+import org.crayne.cpg.text.color.ansi.AnsiColor;
+import org.crayne.cpg.text.color.ansi.AnsiColorBuilder;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-import java.awt.Color;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 public class ComponentBuilder {
 
-    private final AnsiColorBuilder ansiColorBuilder;
+    @NotNull
+    private AnsiColorBuilder ansiColorBuilder;
+
+    @Nullable
     private String text;
+
+    @NotNull
+    private final List<ComponentPart> parts;
 
     public ComponentBuilder() {
         ansiColorBuilder = new AnsiColorBuilder();
+        ansiColorBuilder.reset(true);
+        parts = new ArrayList<>();
     }
 
-    public ComponentBuilder fg(final Color fg) {
-        ansiColorBuilder.fg(fg);
+    protected ComponentBuilder(@NotNull final List<ComponentPart> parts) {
+        this();
+        this.parts.addAll(parts);
+    }
+
+    public void clearAll() {
+        clearCurrent();
+        parts.clear();
+    }
+
+    public void clearCurrent() {
+        ansiColorBuilder = new AnsiColorBuilder();
+        ansiColorBuilder.reset(true);
+        text = null;
+    }
+
+    @NotNull
+    public ComponentBuilder foreground(@Nullable final Color fg) {
+        ansiColorBuilder.foreground(fg);
+        ansiColorBuilder.reset(false);
         return this;
     }
 
-    public ComponentBuilder bg(final Color bg) {
-        ansiColorBuilder.bg(bg);
+    @NotNull
+    public ComponentBuilder background(@Nullable final Color bg) {
+        ansiColorBuilder.background(bg);
+        ansiColorBuilder.reset(false);
         return this;
     }
 
+    @NotNull
     public ComponentBuilder reset(final boolean b) {
         ansiColorBuilder.reset(b);
         return this;
     }
 
+    @NotNull
     public ComponentBuilder bold(final boolean b) {
         ansiColorBuilder.bold(b);
         return this;
     }
 
+    @NotNull
     public ComponentBuilder dim(final boolean b) {
         ansiColorBuilder.dim(b);
         return this;
     }
 
+    @NotNull
     public ComponentBuilder italic(final boolean b) {
         ansiColorBuilder.italic(b);
         return this;
     }
 
+    @NotNull
     public ComponentBuilder underline(final boolean b) {
         ansiColorBuilder.underline(b);
         return this;
     }
 
+    @NotNull
     public ComponentBuilder blinking(final boolean b) {
         ansiColorBuilder.blinking(b);
         return this;
     }
 
+    @NotNull
     public ComponentBuilder inverted(final boolean b) {
         ansiColorBuilder.inverted(b);
         return this;
     }
 
+    @NotNull
     public ComponentBuilder hidden(final boolean b) {
         ansiColorBuilder.hidden(b);
         return this;
     }
 
+    @NotNull
     public ComponentBuilder strikethrough(final boolean b) {
         ansiColorBuilder.strikethrough(b);
         return this;
     }
 
-    public ComponentBuilder obfuscated(final boolean b) {
-        ansiColorBuilder.obfuscated(b);
-        return this;
+    @NotNull
+    public Optional<Color> foreground() {
+        return ansiColorBuilder.foreground();
     }
 
-    public ComponentBuilder rainbow(final boolean b) {
-        ansiColorBuilder.rainbow(b);
-        return this;
+    @NotNull
+    public Optional<Color> background() {
+        return ansiColorBuilder.background();
     }
 
-    public ComponentBuilder pastel_rainbow(final boolean b) {
-        ansiColorBuilder.pastel_rainbow(b);
-        return this;
-    }
-
-    public ComponentBuilder animation_speed(final float s) {
-        ansiColorBuilder.animation_speed(s);
-        return this;
-    }
-
-    public Color fg() {
-        return ansiColorBuilder.fg();
-    }
-
-    public Color bg() {
-        return ansiColorBuilder.bg();
-    }
-
+    @NotNull
     public AnsiColor color() {
         return ansiColorBuilder.build();
     }
@@ -137,38 +162,46 @@ public class ComponentBuilder {
         return ansiColorBuilder.strikethrough();
     }
 
-    public boolean obfuscated() {
-        return ansiColorBuilder.obfuscated();
+    @NotNull
+    public static ComponentBuilder builder(@NotNull final String text) {
+        return builder().text(text);
     }
 
-    public boolean rainbow() {
-        return ansiColorBuilder.rainbow();
+    @NotNull
+    public static ComponentBuilder builder() {
+        return new ComponentBuilder();
     }
 
-    public boolean pastel_rainbow() {
-        return ansiColorBuilder.pastel_rainbow();
-    }
-
-    public float animation_speed() {
-        return ansiColorBuilder.animation_speed();
-    }
-
-    public static ComponentBuilder builder(final String text) {
-        return new ComponentBuilder().text(text);
-    }
-
-    public ComponentBuilder text(final String text) {
+    @NotNull
+    public ComponentBuilder text(@Nullable final String text) {
         this.text = text;
         return this;
     }
 
-    public String text() {
-        return text;
+    @NotNull
+    public Optional<String> text() {
+        return Optional.ofNullable(text);
     }
 
-    public ComponentPart build() {
+    @NotNull
+    public ComponentPart buildPart() {
         return new ComponentPart(color(), text);
     }
-    public TextComponent textComponent() {return TextComponent.of(build());}
+
+    @NotNull
+    public ComponentBuilder next() {
+        final ComponentPart part = buildPart();
+        if (!part.invisible()) parts.add(part);
+        clearCurrent();
+        return this;
+    }
+
+    @NotNull
+    public Component build() {
+        next();
+        final Component result = Component.text(parts);
+        clearAll();
+        return result;
+    }
 
 }

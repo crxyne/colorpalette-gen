@@ -10,119 +10,112 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class TextComponent {
+public class Component {
 
     private final List<ComponentPart> parts;
 
-    public TextComponent(@NotNull final ComponentPart... parts) {
+    public Component(@NotNull final ComponentPart... parts) {
         this.parts = new ArrayList<>(Arrays.stream(parts).toList());
     }
 
-    public TextComponent(@NotNull final Collection<ComponentPart> parts) {
+    public Component(@NotNull final Collection<ComponentPart> parts) {
         this.parts = new ArrayList<>(parts);
     }
 
     @NotNull
-    public static TextComponent text(@NotNull final AnsiColor color, @NotNull final String text) {
-        return new TextComponent(ComponentPart.of(color, text));
+    public static Component text(@NotNull final AnsiColor color, @NotNull final String text) {
+        return new Component(ComponentPart.of(color, text));
     }
 
     @NotNull
-    public static TextComponent text(@NotNull final Color color, @NotNull final String text) {
-        return new TextComponent(ComponentPart.of(color, text));
+    public static Component text(@NotNull final Color color, @NotNull final String text) {
+        return text(color, text, true);
     }
 
     @NotNull
-    public static TextComponent text(@NotNull final ComponentPart... parts) {
-        return new TextComponent(parts);
+    public static Component text(@NotNull final Color color, @NotNull final String text, final boolean foreground) {
+        return new Component(ComponentPart.of(color, text, foreground));
     }
 
     @NotNull
-    public static TextComponent text(@NotNull final Collection<ComponentPart> parts) {
-        return new TextComponent(parts);
+    public static Component text(@NotNull final ComponentPart... parts) {
+        return new Component(parts);
     }
 
     @NotNull
-    public static TextComponent empty() {
-        return new TextComponent();
+    public static Component text(@NotNull final Collection<ComponentPart> parts) {
+        return new Component(parts);
     }
 
     @NotNull
-    public static TextComponent plain(@NotNull final String text) {
-        return new TextComponent(ComponentPart.plain(text));
+    public static Component empty() {
+        return new Component();
     }
 
     @NotNull
-    public TextComponent prepend(@NotNull final ComponentPart part) {
+    public static Component text(@NotNull final String text) {
+        return new Component(ComponentPart.of(text));
+    }
+
+    @NotNull
+    public Component prepend(@NotNull final ComponentPart part) {
         parts.add(0, part);
         return this;
     }
 
     @NotNull
-    public TextComponent prepend(@NotNull final AnsiColor part) {
+    public Component prepend(@NotNull final AnsiColor part) {
         parts.add(0, new ComponentPart(part, null));
         return this;
     }
 
     @NotNull
-    public TextComponent prepend(@NotNull final String plain) {
-        parts.add(0, ComponentPart.plain(plain));
+    public Component prepend(@NotNull final String plain) {
+        parts.add(0, ComponentPart.of(plain));
         return this;
     }
 
     @NotNull
-    public TextComponent prepend(@NotNull final ComponentBuilder part) {
-        parts.add(0, part.build());
-        return this;
-    }
-
-    @NotNull
-    public TextComponent prepend(@NotNull final TextComponent comp) {
+    public Component prepend(@NotNull final Component comp) {
         parts.addAll(0, comp.parts);
         return this;
     }
 
     @NotNull
-    public TextComponent append(@NotNull final ComponentPart part) {
+    public Component append(@NotNull final ComponentPart part) {
         parts.add(part);
         return this;
     }
 
     @NotNull
-    public TextComponent append(@NotNull final AnsiColor part) {
+    public Component append(@NotNull final AnsiColor part) {
         parts.add(new ComponentPart(part, null));
         return this;
     }
 
     @NotNull
-    public TextComponent append(@NotNull final String plain) {
-        parts.add(ComponentPart.plain(plain));
+    public Component append(@NotNull final String plain) {
+        parts.add(ComponentPart.of(plain));
         return this;
     }
 
     @NotNull
-    public TextComponent append(@NotNull final ComponentBuilder part) {
-        parts.add(part.build());
-        return this;
-    }
-
-    @NotNull
-    public TextComponent append(@NotNull final TextComponent comp) {
+    public Component append(@NotNull final Component comp) {
         parts.addAll(comp.parts);
         return this;
     }
 
     @NotNull
-    public TextComponent replace(@NotNull final String find, @NotNull final String replace) {
-        final List<ComponentPart> replaced = parts.stream().map(c -> new ComponentPart(c.color(), c.text().replace(find, replace))).toList();
+    public Component replace(@NotNull final String find, @NotNull final String replace) {
+        final List<ComponentPart> replaced = parts.stream().map(c -> new ComponentPart(c.color().orElse(null), c.text().replace(find, replace))).toList();
         parts.clear();
         parts.addAll(replaced);
         return this;
     }
 
     @NotNull
-    public TextComponent replaceAll(@NotNull final String regex, @NotNull final String replace) {
-        final List<ComponentPart> replaced = parts.stream().map(c -> new ComponentPart(c.color(), c.text().replaceAll(regex, replace))).toList();
+    public Component replaceAll(@NotNull final String regex, @NotNull final String replace) {
+        final List<ComponentPart> replaced = parts.stream().map(c -> new ComponentPart(c.color().orElse(null), c.text().replaceAll(regex, replace))).toList();
         parts.clear();
         parts.addAll(replaced);
         return this;
@@ -137,8 +130,8 @@ public class TextComponent {
         return parts.isEmpty();
     }
 
-    public boolean visible() {
-        return !text().isEmpty() || !parts.stream().filter(c -> c.color() != null && c.color() != AnsiColor.RESET_ANSI_COLOR).toList().isEmpty();
+    public boolean invisible() {
+        return parts.stream().allMatch(ComponentPart::invisible);
     }
 
     @NotNull
@@ -148,12 +141,17 @@ public class TextComponent {
 
     @NotNull
     public String toString(final boolean autoResetColor) {
-        return parts.stream().map(ComponentPart::toString).collect(Collectors.joining()) + (autoResetColor ? AnsiColor.RESET : "");
+        return parts.stream().map(ComponentPart::toString).collect(Collectors.joining()) + (autoResetColor ? AnsiColor.RESET_ANSI_STRING : "");
     }
 
     @NotNull
-    public TextComponent createCopy() {
-        return new TextComponent(parts.stream().map(ComponentPart::createCopy).toList());
+    public ComponentBuilder builder() {
+        return new ComponentBuilder(this.parts).next().reset(true).next();
+    }
+
+    @NotNull
+    public Component createCopy() {
+        return new Component(parts.stream().map(ComponentPart::createCopy).toList());
     }
 
     @NotNull

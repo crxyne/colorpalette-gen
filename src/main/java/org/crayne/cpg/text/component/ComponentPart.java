@@ -1,60 +1,77 @@
-package org.crayne.sketch.text.component;
+package org.crayne.cpg.text.component;
 
-import org.crayne.sketch.text.AnsiColor;
-import org.crayne.sketch.text.RandomString;
+import org.crayne.cpg.text.color.Color;
+import org.crayne.cpg.text.color.ansi.AnsiColor;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-import java.awt.Color;
+import java.util.Optional;
 
 public class ComponentPart {
 
+    @Nullable
     private AnsiColor color;
+
+    @NotNull
     private final String text;
 
-    public ComponentPart(final AnsiColor color, final String text) {
+    public ComponentPart(@Nullable final AnsiColor color, @Nullable final String text) {
         this.color = color;
         this.text = text == null ? "" : text;
     }
 
+    @NotNull
     public static ComponentPart empty() {
         return new ComponentPart(null, null);
     }
 
-    public static ComponentPart plain(@NotNull final String text) {
+    @NotNull
+    public static ComponentPart of(@NotNull final String text) {
         return new ComponentPart(null, text);
     }
 
-    public static ComponentPart of(final AnsiColor color, final String text) {
+    @NotNull
+    public static ComponentPart of(@Nullable final AnsiColor color, @NotNull final String text) {
         return new ComponentPart(color, text);
     }
 
-    public static ComponentPart of(final Color color, final String text) {
-        return new ComponentPart(AnsiColor.foreground(color), text);
+    @NotNull
+    public static ComponentPart of(@NotNull final Color color, @NotNull final String text) {
+        return of(color, text, true);
     }
 
+    @NotNull
+    public static ComponentPart of(@NotNull final Color color, @NotNull final String text, final boolean foreground) {
+        return new ComponentPart(foreground ? AnsiColor.foreground(color) : AnsiColor.background(color), text);
+    }
+
+    public boolean invisible() {
+        return color().map(c -> !c.reset()).orElse(true) && text.isEmpty();
+    }
+
+    @NotNull
     public String text() {
         return text;
     }
 
-    public AnsiColor color() {
-        return color;
+    @NotNull
+    public Optional<AnsiColor> color() {
+        return Optional.ofNullable(color);
     }
 
-    public ComponentPart color(final AnsiColor color) {
+    @NotNull
+    public ComponentPart color(@Nullable final AnsiColor color) {
         this.color = color;
         return this;
     }
 
+    @NotNull
     public ComponentPart createCopy() {
         return new ComponentPart(color, text);
     }
 
+    @NotNull
     public String toString() {
-        final boolean colorFound = color != null;
-        final String resultText = text;
-        final boolean obfuscated = colorFound && color.flag(9);
-
-        return (!colorFound ? resultText : color.toString(resultText) + (!color.flag(10) && !color.flag(11) ?
-                obfuscated ? RandomString.randomString(resultText.length(), 126, 32) : resultText : ""));
+        return color == null ? text : (color + text);
     }
 }

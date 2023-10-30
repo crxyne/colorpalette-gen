@@ -1,9 +1,8 @@
-package org.crayne.cpg.text.color;
+package org.crayne.cpg.text.color.space;
 
+import org.crayne.cpg.text.color.Color;
 import org.crayne.cpg.text.util.BoundedVec3;
 import org.jetbrains.annotations.NotNull;
-
-import java.awt.*;
 
 public class RGB extends BoundedVec3<Integer> {
 
@@ -13,6 +12,22 @@ public class RGB extends BoundedVec3<Integer> {
 
     public RGB(final float r, final float g, final float b) {
         this((int) (r * 255), (int) (g * 255), (int) (b * 255));
+    }
+
+    @NotNull
+    public Color color() {
+        return Color.rgb(this);
+    }
+
+    @NotNull
+    public static RGB ofHex(@NotNull final String hex) {
+        final java.awt.Color color = java.awt.Color.decode(hex);
+        return RGB.of(color.getRed(), color.getGreen(), color.getBlue());
+    }
+
+    @NotNull
+    public String toHex() {
+        return String.format("#%02x%02x%02x", r(), g(), b());
     }
 
     @NotNull
@@ -53,6 +68,11 @@ public class RGB extends BoundedVec3<Integer> {
         );
     }
 
+    @NotNull
+    public RGB add(@NotNull final Integer x, @NotNull final Integer y, @NotNull final Integer z) {
+        return RGB.clampInt(x() + x, y() + y, z() + z);
+    }
+
     public void checkBounds(@NotNull final Integer x, @NotNull final Integer y, @NotNull final Integer z) {
         checkIntegerBounds(x, y, z, 0, 255);
     }
@@ -61,6 +81,19 @@ public class RGB extends BoundedVec3<Integer> {
         checkIntegerComponentBounds(r, "Red",   min, max);
         checkIntegerComponentBounds(g, "Green", min, max);
         checkIntegerComponentBounds(b, "Blue",  min, max);
+    }
+
+    @NotNull
+    public RGB interpolate(final double step, @NotNull final RGB other) {
+        return RGB.of(
+                lerp(step, r(), other.r()),
+                lerp(step, g(), other.g()),
+                lerp(step, b(), other.b())
+        );
+    }
+
+    private static int lerp(final double step, final int min, final int max) {
+        return (int) (min + step * (max - min));
     }
 
     public int r() {
@@ -77,7 +110,7 @@ public class RGB extends BoundedVec3<Integer> {
 
     @NotNull
     public HSV toHSV() {
-        final float[] hsv = Color.RGBtoHSB(r(), g(), b(), null);
+        final float[] hsv = java.awt.Color.RGBtoHSB(r(), g(), b(), null);
         return new HSV(hsv[0] * 360f, hsv[1], hsv[2]);
     }
 
