@@ -1,0 +1,10 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="colorpalette-gen:jar">
+    <output-path>$PROJECT_DIR$/</output-path>
+    <root id="archive" name="colorpalette-gen.jar">
+      <element id="module-output" name="colorpalette-gen" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/jetbrains/annotations/24.0.1/annotations-24.0.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/apache/commons/commons-lang3/3.13.0/commons-lang3-3.13.0.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>
